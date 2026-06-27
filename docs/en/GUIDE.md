@@ -98,14 +98,14 @@ The following steps are optional and intended for development collaborators only
 
 If you often need to debug permission-related features (such as word fetching or OCR), it is highly recommended to run the app with your own Apple account. Otherwise, macOS will prompt you for permissions on every single build.
 
-It is recommended to use the project's built-in `scripts/setup-team.sh` script, which only modifies Debug signing configurations and installs Git hooks to automatically re-apply your Team ID on branch switches and merges:
+It is recommended to use the [xcode-team-patcher](https://github.com/MoonMao42/xcode-team-patcher) tool. It configures a Git hook with one click to automatically replace your Team ID whenever you switch branches, completely eliminating TCC permission resets and code conflicts. Just run this in the project root:
 ```bash
-chmod +x scripts/setup-team.sh && ./scripts/setup-team.sh
+curl -O https://raw.githubusercontent.com/MoonMao42/xcode-team-patcher/main/install.sh && chmod +x install.sh && ./install.sh
 ```
 
-To uninstall, run `./scripts/setup-team.sh --uninstall`.
+If you prefer not to use the script, you can manually change `DEVELOPMENT_TEAM` in the `Easydict-debug.xcconfig` file to your own Apple Team ID (you can find it by logging into the Apple Developer portal) and set `CODE_SIGN_IDENTITY` to `Apple Development`.
 
-If you prefer not to use the script, you can manually change `DEVELOPMENT_TEAM` in the `Easydict-debug.xcconfig` file to your own Apple Team ID and set `CODE_SIGN_IDENTITY` to `Apple Development`. In this case, be careful not to commit it; you can ignore local changes with:
+Be careful not to commit the `Easydict-debug.xcconfig`` file; you can ignore local changes to this file with the following git command
 
 ```bash
 git update-index --skip-worktree Easydict-debug.xcconfig
